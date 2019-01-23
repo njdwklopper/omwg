@@ -1,6 +1,6 @@
 package com.tegnatiek.omw.wordengine.model
 
-import java.util.LinkedHashMap
+import com.badlogic.gdx.utils.ObjectMap
 
 class Board {
     var gameWordAnswerChosen: String? = null
@@ -8,13 +8,13 @@ class Board {
     private val gameWordPlayedTiles: Word? = null
     private val gameWordBonus: Word? = null
     var scoreBoard: ScoreBoard? = null
-    private var gameBoard: MutableMap<String, Word>? = LinkedHashMap<String, Word>()
+    private var gameBoard: ObjectMap<String, Word>? = ObjectMap()
 
-    fun getGameBoard(): Map<String, Word>? {
+    fun getGameBoard(): ObjectMap<String, Word>? {
         return gameBoard
     }
 
-    fun setGameBoard(gameBoard: MutableMap<String, Word>) {
+    fun setGameBoard(gameBoard: ObjectMap<String, Word>) {
         this.gameBoard = gameBoard
     }
 

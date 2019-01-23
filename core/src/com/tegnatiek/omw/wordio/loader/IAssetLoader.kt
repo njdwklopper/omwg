@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import java.util.*
 
 interface IAssetLoader {
-    val wordList: ArrayList<String>
+    fun getWordList(): ArrayList<String>
 
     val font: BitmapFont?
     fun update(): Boolean

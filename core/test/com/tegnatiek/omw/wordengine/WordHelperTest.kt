@@ -79,7 +79,7 @@ class WordHelperTest {
     fun testGetRandomWordFromList() {
         val wordLoaderForThisTest = MockedWordLoader()
         val wordHelperForThisTest = WordHelper(wordLoaderForThisTest)
-        assertEquals("tester", wordHelperForThisTest.randomSixLetterWordFromList)
+        assertEquals("tester", wordHelperForThisTest.getRandomSixLetterWordFromList())
     }
 
     private inner class MockedWordLoader : IAssetLoader {
@@ -94,12 +94,11 @@ class WordHelperTest {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-        override val wordList: ArrayList<String>
-            get() {
-                val wordListTest = ArrayList<String>(0)
-                wordListTest.add("tester")
-                return wordListTest
-            }
+        override fun getWordList(): java.util.ArrayList<String> {
+            val wordListTest = ArrayList<String>(0)
+            wordListTest.add("tester")
+            return wordListTest
+        }
     }
 
     @Test

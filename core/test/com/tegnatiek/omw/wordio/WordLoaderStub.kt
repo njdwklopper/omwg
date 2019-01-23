@@ -9,13 +9,17 @@ import java.nio.charset.Charset
 import java.util.*
 
 class WordLoaderStub() : IAssetLoader {
+
     companion object {
         //To run test with this class, run test with android/assets on path
-        private const val WORDLIST_PATH = "word.list"
+        private const val WORDLIST_PATH = "data/word.list"
     }
 
-    override var wordList: ArrayList<String> = ArrayList(120000)
-        private set
+    private var wordLists: ArrayList<String> = ArrayList(120000)
+
+    override fun getWordList(): ArrayList<String> {
+        return wordLists
+    }
 
     override val font: BitmapFont? = null
 
@@ -30,11 +34,11 @@ class WordLoaderStub() : IAssetLoader {
 
     private fun readIntoWords(inputStream: FileInputStream) {
         val content = inputStream.readBytes().toString(Charset.defaultCharset())
-        wordList = content.split('\n') as ArrayList<String>
+        wordLists = content.split('\n') as ArrayList<String>
     }
 
     override fun destroy() {
-        wordList.clear()
+        wordLists.clear()
     }
 
     override fun update(): Boolean {

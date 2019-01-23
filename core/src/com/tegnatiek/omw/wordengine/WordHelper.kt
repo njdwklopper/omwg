@@ -4,13 +4,13 @@ import com.tegnatiek.omw.wordio.loader.IAssetLoader
 import java.util.*
 import java.util.regex.Pattern
 
+
 class WordHelper(private val wordLoader: IAssetLoader) {
 
-    val randomSixLetterWordFromList: String
-        get() {
-            val tmpList = getTemporaryWordListbyWordLength(6)
-            return tmpList[getRandomIntByMax(tmpList.size - 1)]
-        }
+    fun getRandomSixLetterWordFromList(): String {
+        val tmpList = getTemporaryWordListbyWordLength(6)
+        return tmpList[getRandomIntByMax(tmpList.size)]
+    }
 
     fun countTotalWordsGenerated(gameBoard: List<List<String>>): Int {
         var counter = 0
@@ -22,20 +22,20 @@ class WordHelper(private val wordLoader: IAssetLoader) {
         return counter
     }
 
-    fun getWordsGameBoard(chosenWord: String): List<List<String>> {
-        val gameBoard = ArrayList<List<String>>()
+    fun getWordsGameBoard(chosenWord: String): ArrayList<ArrayList<String>> {
+        val gameBoard = ArrayList<ArrayList<String>>()
         createGameBoard(chosenWord, gameBoard)
 
         val count = countTotalWordsGenerated(gameBoard)
         return if (count >= MIN_ALL && count <= MAX_ALL) {
             gameBoard
         } else {
-            getWordsGameBoard(randomSixLetterWordFromList)
+            getWordsGameBoard(getRandomSixLetterWordFromList())
         }
     }
 
-    private fun createGameBoard(chosenWord: String, gameBoard: MutableList<List<String>>) {
-        var tmpList: List<String>
+    private fun createGameBoard(chosenWord: String, gameBoard: ArrayList<ArrayList<String>>) {
+        var tmpList: ArrayList<String>
         for (i in 3..5) {
             tmpList = getWordsMatchingStringCharSet(chosenWord, i)
             gameBoard.add(tmpList)
@@ -46,7 +46,7 @@ class WordHelper(private val wordLoader: IAssetLoader) {
         return word.length == length
     }
 
-    fun getWordsMatchingStringCharSet(string: String, wordSize: Int): List<String> {
+    fun getWordsMatchingStringCharSet(string: String, wordSize: Int): ArrayList<String> {
         val tmpList = getTemporaryWordListbyWordLength(wordSize)
         val newList = ArrayList<String>()
 
@@ -87,7 +87,7 @@ class WordHelper(private val wordLoader: IAssetLoader) {
 
     fun getTemporaryWordListbyWordLength(length: Int): List<String> {
         val tmpList = ArrayList<String>(length)
-        val wordList = wordLoader.wordList
+        val wordList = wordLoader.getWordList()
         for (word in wordList) {
             if (doesWordContainThisManyChars(word, length))
                 tmpList.add(word)
