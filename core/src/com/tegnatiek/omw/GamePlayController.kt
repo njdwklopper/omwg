@@ -13,17 +13,22 @@ import com.tegnatiek.omw.wordio.loader.IAssetLoader
 import java.util.*
 
 class GamePlayController {
+    companion object {
+        const val STATE_GAME_START = 0
+        const val STATE_GAME_LOADING_OTHER_ASSETS = 1
+        const val STATE_GAME_PLAY = 2
+    }
 
     var gameState = STATE_GAME_START
-        private set
 
     var boardModel: Board = Board()
     private var assetLoader: IAssetLoader = AssetLoader()
     private var wordHelper: WordHelper = WordHelper(AssetLoader())
     private var wordScoreMap: WordScoreMap = WordScoreMap()
 
-    val font: BitmapFont?
-        get() = assetLoader.font
+    fun getFont(): BitmapFont {
+        return assetLoader.getFont()
+    }
 
     private fun getGameboardWordList(): ArrayList<ArrayList<String>> {
         return wordHelper.getWordsGameBoard(
@@ -118,12 +123,5 @@ class GamePlayController {
     fun destroy() {
         boardModel.destroy()
         assetLoader.destroy()
-    }
-
-    companion object {
-
-        val STATE_GAME_START = 0
-        val STATE_GAME_LOADING_OTHER_ASSETS = 1
-        val STATE_GAME_PLAY = 2
     }
 }

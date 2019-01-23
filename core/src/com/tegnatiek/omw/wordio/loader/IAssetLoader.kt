@@ -5,9 +5,7 @@ import java.util.*
 
 interface IAssetLoader {
     fun getWordList(): ArrayList<String>
-
-    val font: BitmapFont?
+    fun getFont(): BitmapFont
     fun update(): Boolean
-
     fun destroy()
 }

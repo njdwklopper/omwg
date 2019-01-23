@@ -25,8 +25,8 @@ class WordHelperTest {
     @AfterEach
     @Throws(Exception::class)
     fun after() {
-        assetLoader!!.destroy()
-//        assertNull(assetLoader!!.wordList)
+        assetLoader.destroy()
+        assertTrue(assetLoader.getWordList().isEmpty())
     }
 
     @Test
@@ -83,8 +83,9 @@ class WordHelperTest {
     }
 
     private inner class MockedWordLoader : IAssetLoader {
-        override val font: BitmapFont?
-            get() = null
+        override fun getFont(): BitmapFont {
+            return BitmapFont()
+        }
 
         override fun update(): Boolean {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -140,24 +141,24 @@ class WordHelperTest {
     @Test
     @Throws(Exception::class)
     fun testGetTemporaryWordListbySize() {
-        var tmpList = wordHelper.getTemporaryWordListbyWordLength(3)
+        var tmpList = wordHelper.getTemporaryWordListByWordLength(3)
         for (word in tmpList) {
             assertTrue(word.length == 3)
         }
-        tmpList = wordHelper.getTemporaryWordListbyWordLength(4)
+        tmpList = wordHelper.getTemporaryWordListByWordLength(4)
         for (word in tmpList) {
             assertTrue(word.length == 4)
         }
-        tmpList = wordHelper.getTemporaryWordListbyWordLength(5)
+        tmpList = wordHelper.getTemporaryWordListByWordLength(5)
         for (word in tmpList) {
             assertTrue(word.length == 5)
         }
-        tmpList = wordHelper.getTemporaryWordListbyWordLength(6)
+        tmpList = wordHelper.getTemporaryWordListByWordLength(6)
         for (word in tmpList) {
             assertTrue(word.length == 6)
         }
         assertEquals(15290, tmpList.size)
-        tmpList = wordHelper.getTemporaryWordListbyWordLength(7)
+        tmpList = wordHelper.getTemporaryWordListByWordLength(7)
         assertEquals(0, tmpList.size)
         for (word in tmpList) {
             assertTrue(word.length == 7)

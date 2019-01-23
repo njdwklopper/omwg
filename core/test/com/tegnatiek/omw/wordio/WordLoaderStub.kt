@@ -8,10 +8,10 @@ import java.io.FileNotFoundException
 import java.nio.charset.Charset
 import java.util.*
 
-class WordLoaderStub() : IAssetLoader {
+class WordLoaderStub : IAssetLoader {
 
     companion object {
-        //To run test with this class, run test with android/assets on path
+        //To run test with this class, run test with android/assets on path in config
         private const val WORDLIST_PATH = "data/word.list"
     }
 
@@ -21,7 +21,7 @@ class WordLoaderStub() : IAssetLoader {
         return wordLists
     }
 
-    override val font: BitmapFont? = null
+    override fun getFont(): BitmapFont {return BitmapFont()}
 
     init {
         try {

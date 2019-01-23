@@ -17,7 +17,7 @@ public class _OMWGame extends ApplicationAdapter {
     @Override
     public void create() {
         camera = new OrthographicCamera();
-        viewport = new StretchViewport(720f, 1280f, camera);
+        viewport = new StretchViewport(1080f, 1920f, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);

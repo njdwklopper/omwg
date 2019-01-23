@@ -13,40 +13,42 @@ import com.tegnatiek.omw.wordengine.model.Letter
 import com.tegnatiek.omw.wordengine.model.Word
 
 class GameUI(private val width: Float, private val height: Float) {
+
+    companion object {
+        const val WORD_BOARD_SCALE = 0.34f
+        const val WORD_SHUFFLE_SCALE = 0.95f
+        const val BOARD_HEIGHT = 250
+    }
+
     private var wordHeight = 50f
 
-    private val batch: SpriteBatch
-    private var font: BitmapFont? = null
+    private val batch: SpriteBatch = SpriteBatch()
+    private lateinit var font: BitmapFont
 
     private var columnDelta: Float = 0.toFloat()
     private var columnWidth: Float = 0.toFloat()
     private val padding = 20.0f
 
-    private var controller: GamePlayController? = null
+    private var controller: GamePlayController = GamePlayController()
 
     private val textWidth: Float
         get() {
             val layout = GlyphLayout()
-            layout.setText(font!!, "_ _ _ _ _")
+            layout.setText(font, "_ _ _ _ _")
             return layout.width
         }
 
     private val textHeight: Float
         get() {
             val layout = GlyphLayout()
-            font!!.data.setScale(0.34f)
-            layout.setText(font!!, "X")
+            font.data.setScale(0.34f)
+            layout.setText(font, "X")
             return layout.height * 2
         }
 
-    init {
-        controller = GamePlayController()
-        batch = SpriteBatch()
-    }
-
     fun render(camera: OrthographicCamera) {
-        when (controller!!.gameState) {
-            STATE_GAME_START -> controller!!.changeStateAfterLoadingImageComplete()
+        when (controller.gameState) {
+            STATE_GAME_START -> controller.changeStateAfterLoadingImageComplete()
             STATE_GAME_LOADING_OTHER_ASSETS -> {
                 //TODO loading image + loading other assets
                 //                batch.begin();
@@ -56,11 +58,11 @@ class GameUI(private val width: Float, private val height: Float) {
                 //                    controller.refreshBoard();
                 //                    gameState = STATE_GAME_PLAY;
                 //                }
-                font = controller!!.font
+                font = controller.getFont()
                 calculateColumnSpread()
-                controller!!.refreshBoard()
+                controller.refreshBoard()
                 setupCoordinatesForWords()
-                controller!!.changeStateToGamePlay()
+                controller.changeStateToGamePlay()
             }
             STATE_GAME_PLAY -> {
                 batch.projectionMatrix = camera.combined
@@ -78,8 +80,8 @@ class GameUI(private val width: Float, private val height: Float) {
 
     private fun setupCoordinatesForWords() {
         val layout = GlyphLayout()
-        font!!.data.setScale(0.34f)
-        layout.setText(font!!, "X")
+        font.data.setScale(0.34f)
+        layout.setText(font, "X")
 
         for (c in 0 until WordHelper.MAX_COLUMNS) {
             for (r in 0 until WordHelper.MAX_ROWS) {
@@ -88,7 +90,7 @@ class GameUI(private val width: Float, private val height: Float) {
         }
         println("Letters: ")
 
-        for (word in controller!!.boardModel!!.getGameBoard()!!.values()) {
+        for (word in controller.boardModel.getGameBoard()!!.values()) {
             println("\nWord: ")
             for (letter in word.wordLetters!!) {
                 print("" + letter.letter)
@@ -105,19 +107,11 @@ class GameUI(private val width: Float, private val height: Float) {
     }
 
     private fun drawWordMarkers(c: Int, r: Int) {
-        font!!.data.setScale(0.34f)
-        font!!.draw(batch, "A B C D E", columnDelta + columnWidth * c.toFloat(), height - BOARD_HEIGHT - wordHeight * r)
+        font.data.setScale(0.34f)
+        font.draw(batch, "A B C D E", columnDelta + columnWidth * c.toFloat(), height - BOARD_HEIGHT - wordHeight * r)
     }
 
     fun destroy() {
-        controller!!.destroy()
-        controller = null
-    }
-
-    companion object {
-
-        val WORD_BOARD_SCALE = 0.34f
-        val WORD_SHUFFLE_SCALE = 0.95f
-        val BOARD_HEIGHT = 250
+        controller.destroy()
     }
 }

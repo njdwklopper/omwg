@@ -4,11 +4,17 @@ import com.tegnatiek.omw.wordio.loader.IAssetLoader
 import java.util.*
 import java.util.regex.Pattern
 
-
 class WordHelper(private val wordLoader: IAssetLoader) {
 
+    companion object {
+        const val MAX_COLUMNS = 4
+        const val MAX_ROWS = 14
+        const val MAX_ALL = MAX_COLUMNS * MAX_ROWS
+        const val MIN_ALL = MAX_ALL / 3
+    }
+
     fun getRandomSixLetterWordFromList(): String {
-        val tmpList = getTemporaryWordListbyWordLength(6)
+        val tmpList = getTemporaryWordListByWordLength(6)
         return tmpList[getRandomIntByMax(tmpList.size)]
     }
 
@@ -25,9 +31,7 @@ class WordHelper(private val wordLoader: IAssetLoader) {
     fun getWordsGameBoard(chosenWord: String): ArrayList<ArrayList<String>> {
         val gameBoard = ArrayList<ArrayList<String>>()
         createGameBoard(chosenWord, gameBoard)
-
-        val count = countTotalWordsGenerated(gameBoard)
-        return if (count >= MIN_ALL && count <= MAX_ALL) {
+        return if (countTotalWordsGenerated(gameBoard) in MIN_ALL..MAX_ALL) {
             gameBoard
         } else {
             getWordsGameBoard(getRandomSixLetterWordFromList())
@@ -47,7 +51,7 @@ class WordHelper(private val wordLoader: IAssetLoader) {
     }
 
     fun getWordsMatchingStringCharSet(string: String, wordSize: Int): ArrayList<String> {
-        val tmpList = getTemporaryWordListbyWordLength(wordSize)
+        val tmpList = getTemporaryWordListByWordLength(wordSize)
         val newList = ArrayList<String>()
 
         for (word in tmpList) {
@@ -85,7 +89,7 @@ class WordHelper(private val wordLoader: IAssetLoader) {
         } else shuffled
     }
 
-    fun getTemporaryWordListbyWordLength(length: Int): List<String> {
+    fun getTemporaryWordListByWordLength(length: Int): List<String> {
         val tmpList = ArrayList<String>(length)
         val wordList = wordLoader.getWordList()
         for (word in wordList) {
@@ -105,16 +109,7 @@ class WordHelper(private val wordLoader: IAssetLoader) {
         return string.substring(0, string.indexOf(ch)) + string.substring(string.indexOf(ch) + 1)
     }
 
-    fun getRandomIntByMax(max: Int): Int {
-        val tmp = (0..max).random()
-        return tmp
-    }
-
-    companion object {
-
-        val MAX_COLUMNS = 4
-        val MAX_ROWS = 14
-        val MAX_ALL = MAX_COLUMNS * MAX_ROWS
-        val MIN_ALL = MAX_ALL / 3
+    private fun getRandomIntByMax(max: Int): Int {
+        return (0..max).random()
     }
 }
