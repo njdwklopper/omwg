@@ -18,7 +18,6 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: "eclipse"
     apply plugin: "idea"
 
     version = '1.0'
@@ -96,16 +95,16 @@ project(":ios") {
 project(":core") {
     apply plugin: "kotlin"
 
-
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         implementation "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.0"
         implementation "com.kotcrab.vis:vis-ui:1.3.0"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        
+        // JUnit 5
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.2")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.2")
+        testRuntime("org.junit.platform:junit-platform-console:1.3.2")
     }
-}
-
-tasks.eclipse.doLast {
-    delete ".project"
 }
