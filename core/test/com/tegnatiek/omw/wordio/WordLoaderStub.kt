@@ -1,7 +1,5 @@
 package com.tegnatiek.omw.wordio
 
-
-import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.tegnatiek.omw.wordio.loader.IAssetLoader
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -20,8 +18,6 @@ class WordLoaderStub : IAssetLoader {
     override fun getWordList(): ArrayList<String> {
         return wordLists
     }
-
-    override fun getFont(): BitmapFont {return BitmapFont()}
 
     init {
         try {

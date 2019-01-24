@@ -83,9 +83,6 @@ class WordHelperTest {
     }
 
     private inner class MockedWordLoader : IAssetLoader {
-        override fun getFont(): BitmapFont {
-            return BitmapFont()
-        }
 
         override fun update(): Boolean {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

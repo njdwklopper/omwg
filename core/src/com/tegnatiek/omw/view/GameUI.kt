@@ -1,16 +1,13 @@
 package com.tegnatiek.omw.view
 
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.tegnatiek.omw.GamePlayController
 import com.tegnatiek.omw.GamePlayController.Companion.STATE_GAME_LOADING_OTHER_ASSETS
 import com.tegnatiek.omw.GamePlayController.Companion.STATE_GAME_PLAY
 import com.tegnatiek.omw.GamePlayController.Companion.STATE_GAME_START
 import com.tegnatiek.omw.wordengine.WordHelper
-import com.tegnatiek.omw.wordengine.model.Letter
-import com.tegnatiek.omw.wordengine.model.Word
+import com.tegnatiek.omw.wordio.letters.LetterSprites
 
 class GameUI(private val width: Float, private val height: Float) {
 
@@ -23,7 +20,7 @@ class GameUI(private val width: Float, private val height: Float) {
     private var wordHeight = 50f
 
     private val batch: SpriteBatch = SpriteBatch()
-    private lateinit var font: BitmapFont
+    private var letters: LetterSprites = LetterSprites()
 
     private var columnDelta: Float = 0.toFloat()
     private var columnWidth: Float = 0.toFloat()
@@ -31,20 +28,20 @@ class GameUI(private val width: Float, private val height: Float) {
 
     private var controller: GamePlayController = GamePlayController()
 
-    private val textWidth: Float
-        get() {
-            val layout = GlyphLayout()
-            layout.setText(font, "_ _ _ _ _")
-            return layout.width
-        }
-
-    private val textHeight: Float
-        get() {
-            val layout = GlyphLayout()
-            font.data.setScale(0.34f)
-            layout.setText(font, "X")
-            return layout.height * 2
-        }
+//    private val textWidth: Float
+//        get() {
+//            val layout = GlyphLayout()
+//            layout.setText(font, "_ _ _ _ _")
+//            return layout.width
+//        }
+//
+//    private val textHeight: Float
+//        get() {
+//            val layout = GlyphLayout()
+//            font.data.setScale(0.34f)
+//            layout.setText(font, "X")
+//            return layout.height * 2
+//        }
 
     fun render(camera: OrthographicCamera) {
         when (controller.gameState) {
@@ -58,7 +55,6 @@ class GameUI(private val width: Float, private val height: Float) {
                 //                    controller.refreshBoard();
                 //                    gameState = STATE_GAME_PLAY;
                 //                }
-                font = controller.getFont()
                 calculateColumnSpread()
                 controller.refreshBoard()
                 setupCoordinatesForWords()
@@ -79,10 +75,6 @@ class GameUI(private val width: Float, private val height: Float) {
     }
 
     private fun setupCoordinatesForWords() {
-        val layout = GlyphLayout()
-        font.data.setScale(0.34f)
-        layout.setText(font, "X")
-
         for (c in 0 until WordHelper.MAX_COLUMNS) {
             for (r in 0 until WordHelper.MAX_ROWS) {
 
@@ -102,13 +94,12 @@ class GameUI(private val width: Float, private val height: Float) {
         val widthWithPadding = width - padding * 2f
         columnWidth = widthWithPadding / WordHelper.MAX_COLUMNS
         columnDelta = padding * 2f
-        wordHeight = textHeight
-        //        columnDelta = columnWidth * ((float) WordHelper.MAX_COLUMNS / ((float) WordHelper.MAX_COLUMNS - 1));
+//        wordHeight = textHeight
     }
 
     private fun drawWordMarkers(c: Int, r: Int) {
-        font.data.setScale(0.34f)
-        font.draw(batch, "A B C D E", columnDelta + columnWidth * c.toFloat(), height - BOARD_HEIGHT - wordHeight * r)
+//        font.data.setScale(0.34f)
+//        font.draw(batch, "A B C D E", columnDelta + columnWidth * c.toFloat(), height - BOARD_HEIGHT - wordHeight * r)
     }
 
     fun destroy() {

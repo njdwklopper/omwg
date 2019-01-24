@@ -1,6 +1,5 @@
 package com.tegnatiek.omw
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.utils.ObjectMap
 import com.tegnatiek.omw.wordengine.WordHelper
 import com.tegnatiek.omw.wordengine.WordScoreMap
@@ -25,10 +24,6 @@ class GamePlayController {
     private var assetLoader: IAssetLoader = AssetLoader()
     private var wordHelper: WordHelper = WordHelper(AssetLoader())
     private var wordScoreMap: WordScoreMap = WordScoreMap()
-
-    fun getFont(): BitmapFont {
-        return assetLoader.getFont()
-    }
 
     private fun getGameboardWordList(): ArrayList<ArrayList<String>> {
         return wordHelper.getWordsGameBoard(
