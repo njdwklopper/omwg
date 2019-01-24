@@ -15,7 +15,8 @@ class GamePlayController {
     companion object {
         const val STATE_GAME_START = 0
         const val STATE_GAME_LOADING_OTHER_ASSETS = 1
-        const val STATE_GAME_PLAY = 2
+        const val STATE_GAME_LOAD_SPRITE_ATLAS = 2
+        const val STATE_GAME_PLAY = 3
     }
 
     var gameState = STATE_GAME_START
@@ -27,7 +28,7 @@ class GamePlayController {
 
     private fun getGameboardWordList(): ArrayList<ArrayList<String>> {
         return wordHelper.getWordsGameBoard(
-                boardModel.gameWordAnswerChosen!!
+                boardModel.gameWordAnswerChosen
         )
     }
 
@@ -37,10 +38,14 @@ class GamePlayController {
         }
     }
 
-    fun changeStateToGamePlay() {
+    fun changeStateToLoadSpriteAtlas() {
         if (assetLoader.getWordList().isNotEmpty()) {
-            gameState = STATE_GAME_PLAY
+            gameState = STATE_GAME_LOAD_SPRITE_ATLAS
         }
+    }
+
+    fun changeStateToPlay() {
+        gameState = STATE_GAME_PLAY
     }
 
     fun refreshBoard() {
@@ -51,7 +56,7 @@ class GamePlayController {
         boardModel.gameWordAnswerChosen = wordHelper.getRandomSixLetterWordFromList()
         boardModel.gameWordPlayableTiles = getNewWordModel(
                 wordHelper.shuffleString(
-                        boardModel.gameWordAnswerChosen!!
+                        boardModel.gameWordAnswerChosen
                 )
         )
     }
@@ -61,7 +66,7 @@ class GamePlayController {
         initNewScoreBoard()
         val gameBoard = getGameboardWordList()
         val gameBoardModel = ObjectMap<String, Word>(
-                boardModel.scoreBoard!!.totalWordsAvailable
+                boardModel.scoreBoard.totalWordsAvailable
         )
         for (board in gameBoard) {
             for (word in board) {
@@ -105,18 +110,17 @@ class GamePlayController {
     }
 
     private fun initNewScoreBoard() {
-        val scoreBoard = ScoreBoard()
+        boardModel.scoreBoard = ScoreBoard()
         val totalWordsAvailable = wordHelper.countTotalWordsGenerated(
                 getGameboardWordList()
         )
-        scoreBoard.totalWordsAvailable = totalWordsAvailable
-        scoreBoard.totalWordsNotFound = totalWordsAvailable
-        scoreBoard.totalWordsToGo = totalWordsAvailable
-        boardModel.scoreBoard = scoreBoard
+        boardModel.scoreBoard.totalWordsAvailable = totalWordsAvailable
+        boardModel.scoreBoard.totalWordsNotFound = totalWordsAvailable
+        boardModel.scoreBoard.totalWordsToGo = totalWordsAvailable
     }
 
     fun destroy() {
-        boardModel.destroy()
+        boardModel.dispose()
         assetLoader.destroy()
     }
 }

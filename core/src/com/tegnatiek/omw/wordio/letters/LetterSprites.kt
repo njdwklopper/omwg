@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.ObjectMap
 
 
-class LetterSprites {
+class LetterSprites(private val scale: Float) {
     companion object {
-        private const val PATH_SPRITE_ATLAS_LETTERS = "sprites/letters.txt"
+        private const val PATH_SPRITE_ATLAS_LETTERS = "sprites/letters/letters.atlas"
         private const val CHARS = "abcdefghijklmnopqrstuvwxyz"
     }
 
@@ -20,8 +20,10 @@ class LetterSprites {
 
     private fun loadSprites() {
         letters.clear()
-        for (i in 0..CHARS.length) {
-            letters.put(CHARS[i], textureAtlas.createSprite("letter_A"))
+        for (i in 0 until CHARS.length) {
+            val sprite = textureAtlas.createSprite("letter_${CHARS[i].toUpperCase()}")
+            sprite.setScale(scale)
+            letters.put(CHARS[i], sprite)
         }
     }
 
