@@ -1,3 +1,3 @@
 # omwg == Oh My Word Game
 
-LibGDX
+Simple LibGDX Anagram game, multi-platform
