@@ -1,1 +1,3 @@
-# omwg
+# omwg == Oh My Word Game
+
+LibGDX
